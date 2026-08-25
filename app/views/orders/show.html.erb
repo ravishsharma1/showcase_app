@@ -1,0 +1,42 @@
+<% content_for :title, "Order ##{@order.id}" %>
+
+<div class="mx-auto max-w-3xl">
+  <div class="rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-slate-900">Order #<%= @order.id %></h1>
+        <p class="mt-1 text-sm text-slate-500">Placed on <%= @order.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+      </div>
+      <%= status_badge(@order.status) %>
+    </div>
+
+    <div class="mt-8 overflow-hidden rounded-lg border border-slate-200">
+      <table class="min-w-full divide-y divide-slate-200">
+        <thead class="bg-slate-50">
+          <tr>
+            <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Product</th>
+            <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">Qty</th>
+            <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">Price</th>
+            <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-200 bg-white">
+          <% @order.order_items.each do |item| %>
+            <tr>
+              <td class="px-4 py-3 text-sm font-medium text-slate-800"><%= item.product.name %></td>
+              <td class="px-4 py-3 text-right text-sm text-slate-600"><%= item.quantity %></td>
+              <td class="px-4 py-3 text-right text-sm text-slate-600"><%= format("$%.2f", item.price) %></td>
+              <td class="px-4 py-3 text-right text-sm font-semibold text-slate-900"><%= format("$%.2f", item.subtotal) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+        <tfoot class="bg-slate-50">
+          <tr>
+            <td colspan="3" class="px-4 py-3 text-right text-sm font-semibold text-slate-700">Total</td>
+            <td class="px-4 py-3 text-right text-sm font-bold text-slate-900"><%= @order.formatted_total %></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<% content_for :title, "Browse Jobs" %>
+
+<div class="flex items-center justify-between">
+  <div>
+    <h1 class="text-2xl font-bold text-slate-900">Browse Jobs</h1>
+    <p class="mt-1 text-sm text-slate-500">Find your next opportunity.</p>
+  </div>
+  <% if user_signed_in? && (current_user.client? || current_user.admin?) %>
+    <%= link_to "Post a Job", new_company_path, class: "rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700" %>
+  <% end %>
+</div>
+
+<!-- Search -->
+<div class="mt-6 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
+  <%= search_form_for @q, class: "flex flex-col gap-3 sm:flex-row" do |f| %>
+    <%= f.search_field :title_or_description_cont, placeholder: "Search jobs...", class: "flex-1 rounded-lg border border-slate-300 px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500" %>
+    <%= f.select :employment_type_eq, Job.employment_types.keys.map { |k| [k.titleize, k] }, { include_blank: "All types" }, class: "rounded-lg border border-slate-300 px-4 py-2 text-sm" %>
+    <%= f.submit "Search", class: "rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800" %>
+  <% end %>
+</div>
+
+<!-- Job list -->
+<div class="mt-6 space-y-4">
+  <% if @jobs.any? %>
+    <% @jobs.each do |job| %>
+      <%= link_to job_path(job), class: "block rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 hover:ring-indigo-300 hover:shadow-md transition" do %>
+        <div class="flex items-start justify-between">
+          <div>
+            <h2 class="text-lg font-semibold text-slate-900"><%= job.title %></h2>
+            <p class="mt-1 text-sm text-slate-500"><%= job.company.name %></p>
+          </div>
+          <%= status_badge(job.status) %>
+        </div>
+        <div class="mt-4 flex flex-wrap items-center gap-4 text-sm text-slate-500">
+          <span>📍 <%= job.location.presence || "Remote" %></span>
+          <span>💰 <%= job.salary_range %></span>
+          <span>💼 <%= job.employment_type&.titleize || "Full Time" %></span>
+          <span>📅 <%= time_ago_in_words(job.created_at) %> ago</span>
+        </div>
+      <% end %>
+    <% end %>
+  <% else %>
+    <div class="rounded-2xl bg-white p-12 text-center shadow-sm ring-1 ring-slate-200">
+      <p class="text-4xl">🔍</p>
+      <p class="mt-4 font-semibold text-slate-900">No jobs found</p>
+      <p class="mt-1 text-sm text-slate-500">Try adjusting your search.</p>
+    </div>
+  <% end %>
+</div>

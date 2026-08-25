@@ -1,0 +1,41 @@
+<% content_for :title, "Admin Dashboard" %>
+
+<h1 class="text-2xl font-bold text-slate-900">Admin Dashboard</h1>
+<p class="mt-1 text-sm text-slate-500">Platform overview and management.</p>
+
+<div class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+  <% @stats.each do |label, value| %>
+    <div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
+      <p class="text-2xl font-bold text-slate-900"><%= number_with_delimiter(value) %></p>
+      <p class="mt-1 text-xs font-medium uppercase tracking-wide text-slate-500"><%= label %></p>
+    </div>
+  <% end %>
+</div>
+
+<div class="mt-8 grid gap-6 lg:grid-cols-2">
+  <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+    <div class="flex items-center justify-between">
+      <h2 class="font-semibold text-slate-900">Recent Users</h2>
+      <%= link_to "Manage Users", admin_users_path, class: "text-sm text-indigo-600 hover:text-indigo-700" %>
+    </div>
+    <div class="mt-4 space-y-3">
+      <% @recent_users.each do |user| %>
+        <div class="flex items-center justify-between rounded-lg border border-slate-200 px-4 py-3">
+          <div>
+            <p class="font-medium text-slate-800"><%= user.name %></p>
+            <p class="text-xs text-slate-500"><%= user.email %></p>
+          </div>
+          <%= status_badge(user.role) %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+    <div class="flex items-center justify-between">
+      <h2 class="font-semibold text-slate-900">Categories</h2>
+      <%= link_to "Manage Categories", admin_categories_path, class: "text-sm text-indigo-600 hover:text-indigo-700" %>
+    </div>
+    <p class="mt-4 text-sm text-slate-500">Manage the categories used across the marketplace and blog.</p>
+  </div>
+</div>

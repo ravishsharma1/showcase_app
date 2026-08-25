@@ -1,0 +1,108 @@
+<% content_for :title, "Dashboard" %>
+
+<div class="flex items-center justify-between">
+  <div>
+    <h1 class="text-2xl font-bold text-slate-900">Welcome back, <%= current_user.name %> 👋</h1>
+    <p class="mt-1 text-sm text-slate-500">Here's an overview of your activity across WorkHub.</p>
+  </div>
+  <div class="flex gap-3">
+    <% if current_user.client? %>
+      <%= link_to "New Company", new_company_path, class: "rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700" %>
+    <% end %>
+    <%= link_to "New Project", new_project_path, class: "rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800" %>
+  </div>
+</div>
+
+<div class="mt-8 grid gap-6 lg:grid-cols-2">
+  <!-- Jobs -->
+  <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+    <div class="flex items-center justify-between">
+      <h2 class="font-semibold text-slate-900">My Jobs</h2>
+      <%= link_to "View all", jobs_path, class: "text-sm text-indigo-600 hover:text-indigo-700" %>
+    </div>
+    <div class="mt-4 space-y-3">
+      <% if @my_jobs.any? %>
+        <% @my_jobs.each do |job| %>
+          <%= link_to job_path(job), class: "flex items-center justify-between rounded-lg border border-slate-200 px-4 py-3 hover:border-indigo-300" do %>
+            <span class="font-medium text-slate-800"><%= job.title %></span>
+            <%= status_badge(job.status) %>
+          <% end %>
+        <% end %>
+      <% else %>
+        <p class="text-sm text-slate-500">No jobs yet.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Applications -->
+  <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+    <h2 class="font-semibold text-slate-900">My Applications</h2>
+    <div class="mt-4 space-y-3">
+      <% if @my_applications.any? %>
+        <% @my_applications.each do |app| %>
+          <%= link_to job_path(app.job), class: "flex items-center justify-between rounded-lg border border-slate-200 px-4 py-3 hover:border-indigo-300" do %>
+            <div>
+              <p class="font-medium text-slate-800"><%= app.job.title %></p>
+              <p class="text-xs text-slate-500"><%= app.job.company.name %></p>
+            </div>
+            <%= status_badge(app.status) %>
+          <% end %>
+        <% end %>
+      <% else %>
+        <p class="text-sm text-slate-500">No applications yet. <%= link_to "Browse jobs", jobs_path, class: "text-indigo-600" %>.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Projects -->
+  <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+    <div class="flex items-center justify-between">
+      <h2 class="font-semibold text-slate-900">My Projects</h2>
+      <%= link_to "View all", projects_path, class: "text-sm text-indigo-600 hover:text-indigo-700" %>
+    </div>
+    <div class="mt-4 space-y-3">
+      <% if @my_projects.any? %>
+        <% @my_projects.each do |project| %>
+          <%= link_to project_path(project), class: "block rounded-lg border border-slate-200 px-4 py-3 hover:border-indigo-300" do %>
+            <div class="flex items-center justify-between">
+              <span class="font-medium text-slate-800"><%= project.title %></span>
+              <%= status_badge(project.status) %>
+            </div>
+            <div class="mt-2 h-1.5 w-full rounded-full bg-slate-100">
+              <div class="h-1.5 rounded-full bg-indigo-600" style="width: <%= project.progress_percentage %>%"></div>
+            </div>
+            <p class="mt-1 text-xs text-slate-500"><%= project.progress_percentage %>% complete</p>
+          <% end %>
+        <% end %>
+      <% else %>
+        <p class="text-sm text-slate-500">No projects yet.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Orders -->
+  <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+    <div class="flex items-center justify-between">
+      <h2 class="font-semibold text-slate-900">My Orders</h2>
+      <%= link_to "View all", orders_path, class: "text-sm text-indigo-600 hover:text-indigo-700" %>
+    </div>
+    <div class="mt-4 space-y-3">
+      <% if @my_orders.any? %>
+        <% @my_orders.each do |order| %>
+          <%= link_to order_path(order), class: "flex items-center justify-between rounded-lg border border-slate-200 px-4 py-3 hover:border-indigo-300" do %>
+            <div>
+              <p class="font-medium text-slate-800">Order #<%= order.id %></p>
+              <p class="text-xs text-slate-500"><%= order.order_items.sum(&:quantity) %> items</p>
+            </div>
+            <div class="text-right">
+              <p class="font-semibold text-slate-900"><%= order.formatted_total %></p>
+              <%= status_badge(order.status) %>
+            </div>
+          <% end %>
+        <% end %>
+      <% else %>
+        <p class="text-sm text-slate-500">No orders yet. <%= link_to "Shop marketplace", products_path, class: "text-indigo-600" %>.</p>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<% content_for :title, @company.name %>
+
+<div class="rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
+  <div class="flex items-start justify-between">
+    <div class="flex items-center gap-4">
+      <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-100 text-indigo-700 text-2xl">🏢</div>
+      <div>
+        <h1 class="text-2xl font-bold text-slate-900"><%= @company.name %></h1>
+        <% if @company.website.present? %>
+          <p class="mt-1 text-sm"><%= link_to @company.website, safe_external_url(@company.website), target: "_blank", rel: "noopener noreferrer", class: "text-indigo-600 hover:text-indigo-700" %></p>
+        <% end %>
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <%= link_to "Edit", edit_company_path(@company), class: "rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50" %>
+      <%= button_to "Delete", @company, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "rounded-lg border border-rose-300 px-3 py-2 text-sm font-medium text-rose-700 hover:bg-rose-50" %>
+    </div>
+  </div>
+  <p class="mt-6 text-slate-600"><%= @company.description %></p>
+</div>
+
+<div class="mt-6 flex items-center justify-between">
+  <h2 class="text-xl font-bold text-slate-900">Jobs at <%= @company.name %></h2>
+  <%= link_to "Post a Job", new_company_job_path(@company), class: "rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700" %>
+</div>
+
+<div class="mt-4 space-y-4">
+  <% @jobs.each do |job| %>
+    <%= link_to job_path(job), class: "block rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 hover:ring-indigo-300 transition" do %>
+      <div class="flex items-start justify-between">
+        <div>
+          <h3 class="font-semibold text-slate-900"><%= job.title %></h3>
+          <p class="mt-1 text-sm text-slate-500">📍 <%= job.location.presence || "Remote" %> · 💰 <%= job.salary_range %></p>
+        </div>
+        <%= status_badge(job.status) %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

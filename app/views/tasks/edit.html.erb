@@ -1,0 +1,50 @@
+<% content_for :title, "Edit Task" %>
+
+<div class="mx-auto max-w-2xl">
+  <h1 class="text-2xl font-bold text-slate-900">Edit Task</h1>
+  <p class="mt-1 text-sm text-slate-500">Project: <%= @project.title %></p>
+  <div class="mt-6 rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
+    <%= form_with model: [@project, @task], class: "space-y-6" do |f| %>
+      <% if @task.errors.any? %>
+        <div class="rounded-lg bg-rose-50 border border-rose-200 px-4 py-3">
+          <h2 class="text-sm font-semibold text-rose-800"><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
+          <ul class="mt-2 list-disc pl-5 text-sm text-rose-700">
+            <% @task.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div>
+        <%= f.label :title, class: "block text-sm font-medium text-slate-700" %>
+        <%= f.text_field :title, class: "mt-1 w-full rounded-lg border border-slate-300 px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500" %>
+      </div>
+
+      <div>
+        <%= f.label :description, class: "block text-sm font-medium text-slate-700" %>
+        <%= f.text_area :description, rows: 3, class: "mt-1 w-full rounded-lg border border-slate-300 px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500" %>
+      </div>
+
+      <div class="grid gap-6 sm:grid-cols-3">
+        <div>
+          <%= f.label :status, class: "block text-sm font-medium text-slate-700" %>
+          <%= f.select :status, Task.statuses.map { |s| [s[0].titleize, s[0]] }, {}, class: "mt-1 w-full rounded-lg border border-slate-300 px-4 py-2 text-sm" %>
+        </div>
+        <div>
+          <%= f.label :priority, class: "block text-sm font-medium text-slate-700" %>
+          <%= f.select :priority, Task.priorities.keys.map { |k| [k.titleize, k] }, {}, class: "mt-1 w-full rounded-lg border border-slate-300 px-4 py-2 text-sm" %>
+        </div>
+        <div>
+          <%= f.label :due_date, class: "block text-sm font-medium text-slate-700" %>
+          <%= f.date_field :due_date, class: "mt-1 w-full rounded-lg border border-slate-300 px-4 py-2 text-sm" %>
+        </div>
+      </div>
+
+      <div class="flex gap-3">
+        <%= f.submit "Update Task", class: "rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700" %>
+        <%= link_to "Cancel", @project, class: "rounded-lg border border-slate-300 px-5 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50" %>
+      </div>
+    <% end %>
+  </div>
+</div>

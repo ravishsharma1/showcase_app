@@ -1,0 +1,40 @@
+<% content_for :title, "Manage Users" %>
+
+<div class="flex items-center justify-between">
+  <div>
+    <h1 class="text-2xl font-bold text-slate-900">Manage Users</h1>
+    <p class="mt-1 text-sm text-slate-500">Update user roles across the platform.</p>
+  </div>
+  <%= link_to "Back to Admin", admin_dashboard_path, class: "text-sm text-indigo-600 hover:text-indigo-700" %>
+</div>
+
+<div class="mt-6 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
+  <table class="min-w-full divide-y divide-slate-200">
+    <thead class="bg-slate-50">
+      <tr>
+        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">User</th>
+        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Role</th>
+        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Joined</th>
+        <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-slate-200">
+      <% @users.each do |user| %>
+        <tr>
+          <td class="px-4 py-3">
+            <p class="font-medium text-slate-800"><%= user.name %></p>
+            <p class="text-xs text-slate-500"><%= user.email %></p>
+          </td>
+          <td class="px-4 py-3"><%= status_badge(user.role) %></td>
+          <td class="px-4 py-3 text-sm text-slate-600"><%= user.created_at.strftime("%b %d, %Y") %></td>
+          <td class="px-4 py-3 text-right">
+            <%= form_with model: [:admin, user], class: "inline-flex items-center gap-2" do |f| %>
+              <%= f.select :role, User.roles.keys.map { |k| [k.titleize, k] }, {}, class: "rounded-lg border border-slate-300 px-3 py-1.5 text-sm" %>
+              <%= f.submit "Update", class: "rounded-lg bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-700" %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

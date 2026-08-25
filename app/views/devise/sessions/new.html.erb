@@ -1,0 +1,36 @@
+<div class="mx-auto max-w-md">
+  <div class="rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
+    <div class="text-center">
+      <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-600 text-white text-xl font-bold">W</div>
+      <h2 class="mt-4 text-2xl font-bold text-slate-900">Welcome back</h2>
+      <p class="mt-1 text-sm text-slate-500">Sign in to your WorkHub account.</p>
+    </div>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "mt-8 space-y-5" }) do |f| %>
+      <div>
+        <%= f.label :email, class: "block text-sm font-medium text-slate-700" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "mt-1 w-full rounded-lg border border-slate-300 px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500" %>
+      </div>
+
+      <div>
+        <%= f.label :password, class: "block text-sm font-medium text-slate-700" %>
+        <%= f.password_field :password, autocomplete: "current-password", class: "mt-1 w-full rounded-lg border border-slate-300 px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500" %>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="flex items-center gap-2">
+          <%= f.check_box :remember_me, class: "h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" %>
+          <%= f.label :remember_me, class: "text-sm text-slate-600" %>
+        </div>
+      <% end %>
+
+      <div>
+        <%= f.submit "Sign in", class: "w-full rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700" %>
+      </div>
+    <% end %>
+
+    <div class="mt-6 text-center text-sm text-slate-500">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>

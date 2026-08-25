@@ -1,0 +1,33 @@
+# See https://docs.docker.com/build/building/context/#dockerignore-files
+# for more about ignoring files in Docker builds
+
+# Ignore git and CI
+.git/
+.github/
+.gitignore
+
+# Ignore Ruby metadata
+.ruby-version
+.rubocop.yml
+.rubocop_todo.yml
+
+# Ignore all environment files (except templates)
+.env*
+!.env.example
+
+# Ignore app logs
+log/
+
+# Ignore built application
+tmp/
+storage/
+public/assets
+public/packs
+public/vite
+
+# Ignore test files
+test/
+spec/
+
+# Ignore node modules
+node_modules/

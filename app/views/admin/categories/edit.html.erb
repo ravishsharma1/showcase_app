@@ -1,0 +1,17 @@
+<% content_for :title, "Edit Category" %>
+
+<div class="mx-auto max-w-2xl">
+  <h1 class="text-2xl font-bold text-slate-900">Edit Category</h1>
+  <div class="mt-6 rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
+    <%= form_with model: [:admin, @category], class: "space-y-6" do |f| %>
+      <div>
+        <%= f.label :name, class: "block text-sm font-medium text-slate-700" %>
+        <%= f.text_field :name, class: "mt-1 w-full rounded-lg border border-slate-300 px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500" %>
+      </div>
+      <div class="flex gap-3">
+        <%= f.submit "Update Category", class: "rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700" %>
+        <%= link_to "Cancel", admin_categories_path, class: "rounded-lg border border-slate-300 px-5 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50" %>
+      </div>
+    <% end %>
+  </div>
+</div>

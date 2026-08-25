@@ -1,0 +1,16 @@
+<footer class="border-t border-slate-200 bg-white mt-16">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-600 text-white text-sm font-bold">W</div>
+        <span class="font-semibold text-slate-900">WorkHub</span>
+      </div>
+      <p class="text-sm text-slate-500">A full-stack Rails 8 showcase application — jobs, marketplace, blog &amp; projects.</p>
+      <div class="flex gap-4 text-sm text-slate-500">
+        <%= link_to "Jobs", jobs_path, class: "hover:text-indigo-600" %>
+        <%= link_to "Marketplace", products_path, class: "hover:text-indigo-600" %>
+        <%= link_to "Blog", posts_path, class: "hover:text-indigo-600" %>
+      </div>
+    </div>
+  </div>
+</footer>

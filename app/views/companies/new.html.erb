@@ -1,0 +1,9 @@
+<% content_for :title, "New Company" %>
+
+<div class="mx-auto max-w-2xl">
+  <h1 class="text-2xl font-bold text-slate-900">Create a Company</h1>
+  <p class="mt-1 text-sm text-slate-500">Companies let you post jobs on WorkHub.</p>
+  <div class="mt-6 rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
+    <%= render "form", company: @company %>
+  </div>
+</div>
